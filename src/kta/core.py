@@ -1,4 +1,4 @@
-# src/kta.py
+# src/kta/core.py
 
 import numpy as np
 from numpy.typing import NDArray

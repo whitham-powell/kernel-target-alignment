@@ -20,6 +20,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import datasets, model_selection, svm
+from sklearn.preprocessing import StandardScaler
 
 try:
     from kta import kta  # noqa: F401
@@ -52,6 +53,9 @@ X_tr, X_te, y_tr, y_te = model_selection.train_test_split(
     random_state=0,
     stratify=y,
 )
+scaler = StandardScaler().fit(X_tr)
+X_tr = scaler.transform(X_tr)
+X_te = scaler.transform(X_te)
 
 # 2️⃣ sweep γ
 gammas = np.logspace(-5, 2, 40)
@@ -62,9 +66,11 @@ for g in gammas:
     K_tr = rbf(X_tr, gamma=g)
     alignment.append(kta(K_tr, y_tr))
 
-    clf = svm.SVC(kernel="rbf", gamma=g, C=1.0)
-    clf.fit(X_tr, y_tr)
-    accuracy.append(clf.score(X_te, y_te))
+    K_te = rbf(X_te, X_tr, gamma=g)
+
+    clf = svm.SVC(kernel="precomputed", gamma=g, C=1.0)
+    clf.fit(K_tr, y_tr)
+    accuracy.append(clf.score(K_te, y_te))
 
 alignment = np.array(alignment)
 accuracy = np.array(accuracy)
@@ -80,8 +86,10 @@ ax2.plot(np.log10(gammas), accuracy, marker="x", color="tab:orange", label="Accu
 ax1.set_xlabel("log₁₀ γ")
 ax1.set_ylabel("Alignment")
 ax2.set_ylabel("Test accuracy")
+fig.legend()
+
 fig.suptitle("RBF γ sweep — alignment closely tracks accuracy")
-fig.tight_layout()
+# fig.tight_layout()
 plt.show()
 
 # %%
