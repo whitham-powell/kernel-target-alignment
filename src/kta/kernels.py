@@ -24,3 +24,20 @@ def polynomial(
     if Y is None:
         Y = X
     return (X @ Y.T + c) ** degree
+
+
+def linear(X: NDArray, Y: Optional[NDArray] = None) -> NDArray:
+    if Y is None:
+        Y = X
+    return X @ Y.T
+
+
+def sigmoid(
+    X: NDArray,
+    Y: Optional[NDArray] = None,
+    gamma: float = 0.01,
+    c: float = 1.0,
+) -> NDArray:
+    if Y is None:
+        Y = X
+    return np.tanh(gamma * (X @ Y.T) + c)
