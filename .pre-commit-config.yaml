@@ -22,6 +22,8 @@ repos:
     hooks:
       - id: flake8
         files: \.py$ # Target only Python files
+        additional_dependencies:
+          - flake8-pyproject # Use pyproject.toml for configuration
   # - repo: https://github.com/pre-commit/mirrors-mypy
   #   rev: v1.13.0
   #   hooks:
@@ -46,3 +48,9 @@ repos:
     rev: 0.6.14
     hooks:
       - id: uv-lock
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.16.1
+    hooks:
+      - id: jupytext
+        args: ["--set-formats", "py:percent,ipynb"]
+        files: ^notebooks/.*\.py$
