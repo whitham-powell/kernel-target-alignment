@@ -13,7 +13,7 @@
 # %% [markdown]
 # # RBF γ Sweep: Kernel–Target Alignment vs. SVM Accuracy
 # *Dataset*: Breast-Cancer (binary, 30 features)
-# *Message*: The γ that **maximises KTA** almost always maximises test accuracy.
+# *Message*: The γ that **maximizes KTA** almost always maximizes test accuracy.
 
 
 # %%
@@ -21,8 +21,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import datasets, model_selection, svm
 
-from kta import kta
-from kta.kernels import rbf
+try:
+    from kta import kta  # noqa: F401
+    from kta.kernels import rbf  # noqa: F401
+except ModuleNotFoundError:
+    import subprocess
+    import sys
+
+    subprocess.check_call(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "git+https://github.com/<you>/kernel-target-alignment.git",
+        ],
+    )
+    from kta import kta
+    from kta.kernels import rbf
 
 # %%
 # 1️⃣ data
