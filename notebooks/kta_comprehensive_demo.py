@@ -26,7 +26,7 @@ from sklearn.preprocessing import StandardScaler
 
 try:
     from kta import kta  # noqa: F401
-    from kta.kernels import linear, polynomial, rbf, sigmoid  # noqa: F401
+    from kta import linear, polynomial, rbf, sigmoid  # noqa: F401
 except ModuleNotFoundError:
     import subprocess
     import sys
@@ -41,8 +41,7 @@ except ModuleNotFoundError:
             "git+https://github.com/whitham-powell/kernel-target-alignment.git",
         ],
     )
-    from kta import kta
-    from kta.kernels import linear, polynomial, rbf, sigmoid
+    from kta import kta, linear, polynomial, rbf, sigmoid
 
 # %% [markdown]
 # ## 1️⃣ Setup Datasets
