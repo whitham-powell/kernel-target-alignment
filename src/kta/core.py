@@ -16,4 +16,6 @@ def alignment(K1: NDArray, K2: NDArray) -> float:
     """
     numerator = np.sum(K1 * K2)
     denominator = np.linalg.norm(K1) * np.linalg.norm(K2)
+    if denominator == 0:
+        return 0.0  # Avoid division by zero
     return float(numerator / denominator)
