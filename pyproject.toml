@@ -1,13 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["kta"]
+
 [project]
 name = "kernel-target-alignment"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "cupy-cuda12x>=13.4.1",
     "matplotlib>=3.10.3",
     "numpy>=1.22, <2.3.0",
     "scikit-learn>=1.7.0",
+    "scipy>=1.15.3",
     "seaborn>=0.13.2",
+]
+
+[project.optional-dependencies]
+# gpu = ["cupy-cuda12x>=13.4.1"]
+dev = [                     # for contributors / yourself during R&D
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.1.1",
+    "jupytext >=1.16",
 ]
 
 [dependency-groups]
@@ -23,7 +41,7 @@ minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-pythonpath = ["src"]
+# pythonpath = ["src"] # should not be needed with setuptools package-dir
 log_cli = true
 log_cli_level = "DEBUG"
 

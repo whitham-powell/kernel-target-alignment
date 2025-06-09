@@ -1,0 +1,10 @@
+pyproject.toml
+src/kernel_target_alignment.egg-info/PKG-INFO
+src/kernel_target_alignment.egg-info/SOURCES.txt
+src/kernel_target_alignment.egg-info/dependency_links.txt
+src/kernel_target_alignment.egg-info/requires.txt
+src/kernel_target_alignment.egg-info/top_level.txt
+src/kta/__init__.py
+src/kta/core.py
+src/kta/kernels.py
+tests/test_kta.py
