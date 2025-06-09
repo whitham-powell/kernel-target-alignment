@@ -28,13 +28,13 @@ dev = [                     # for contributors / yourself during R&D
     "jupytext >=1.16",
 ]
 
-[dependency-groups]
-dev = [
-    "ipykernel>=6.29.5",
-    "jupyter>=1.1.1",
-    "pytest>=8.4.0",
-    "pytest-cov>=6.1.1",
-]
+# [dependency-groups]
+# dev = [
+#     "ipykernel>=6.29.5",
+#     "jupyter>=1.1.1",
+#     "pytest>=8.4.0",
+#     "pytest-cov>=6.1.1",
+# ]
 
 [tool.pytest.ini_options]
 minversion = "6.0"

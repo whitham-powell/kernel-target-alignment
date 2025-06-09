@@ -823,14 +823,6 @@ dev = [
     { name = "pytest-cov" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "ipykernel" },
-    { name = "jupyter" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "ipykernel", marker = "extra == 'dev'", specifier = ">=6.29.5" },
@@ -845,14 +837,6 @@ requires-dist = [
     { name = "seaborn", specifier = ">=0.13.2" },
 ]
 provides-extras = ["dev"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "ipykernel", specifier = ">=6.29.5" },
-    { name = "jupyter", specifier = ">=1.1.1" },
-    { name = "pytest", specifier = ">=8.4.0" },
-    { name = "pytest-cov", specifier = ">=6.1.1" },
-]
 
 [[package]]
 name = "kiwisolver"
