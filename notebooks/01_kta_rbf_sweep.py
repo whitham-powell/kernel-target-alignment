@@ -35,7 +35,7 @@ except ModuleNotFoundError:
             "pip",
             "install",
             "--quiet",
-            "git+https://github.com/<you>/kernel-target-alignment.git",
+            "git+https://github.com/whitham-powell/kernel-target-alignment.git",
         ],
     )
     from kta import kta
