@@ -34,5 +34,5 @@ md: env
 			--to markdown \
 			--execute \
 			--ExecutePreprocessor.timeout=300 \
-			--output-dir=markdown_export; \
+			--output-dir=notebooks/markdown_exports; \
 	done
