@@ -17,6 +17,13 @@ from .kernels import (
     sigmoid,
     sigmoid_torch,
 )
+from .modules import (
+    FixedKernel,
+    KernelCombiner,
+    LearnablePolynomial,
+    LearnableRBF,
+    LearnableSigmoid,
+)
 
 __all__ = [
     "alignment",
@@ -31,4 +38,9 @@ __all__ = [
     "polynomial_torch",
     "linear_torch",
     "sigmoid_torch",
+    "FixedKernel",
+    "KernelCombiner",
+    "LearnablePolynomial",
+    "LearnableRBF",
+    "LearnableSigmoid",
 ]

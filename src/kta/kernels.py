@@ -1,6 +1,6 @@
 # src/kta/kernels.py
 
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 import torch
@@ -47,7 +47,7 @@ def sigmoid(
 def rbf_torch(
     X: torch.Tensor,
     Y: Optional[torch.Tensor] = None,
-    gamma: float = 1.0,
+    gamma: Union[float, torch.Tensor] = 1.0,
 ) -> torch.Tensor:
     if Y is None:
         Y = X
@@ -59,7 +59,7 @@ def polynomial_torch(
     X: torch.Tensor,
     Y: Optional[torch.Tensor] = None,
     degree: int = 2,
-    c: float = 1.0,
+    c: Union[float, torch.Tensor] = 1.0,
 ) -> torch.Tensor:
     if Y is None:
         Y = X
@@ -75,8 +75,8 @@ def linear_torch(X: torch.Tensor, Y: Optional[torch.Tensor] = None) -> torch.Ten
 def sigmoid_torch(
     X: torch.Tensor,
     Y: Optional[torch.Tensor] = None,
-    gamma: float = 0.01,
-    c: float = 1.0,
+    gamma: Union[float, torch.Tensor] = 0.01,
+    c: Union[float, torch.Tensor] = 1.0,
 ) -> torch.Tensor:
     if Y is None:
         Y = X

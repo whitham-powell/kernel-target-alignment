@@ -1,14 +1,7 @@
 import numpy as np
 import torch
 
-from kta import rbf_torch  # Torch kernel
-from kta import (  # NumPy versions; Torch versions
-    alignment,
-    alignment_torch,
-    kta,
-    kta_torch,
-    rbf,
-)
+from kta import alignment, alignment_torch, kta, kta_torch, rbf, rbf_torch
 
 
 def test_np_vs_torch_rbf_alignment():

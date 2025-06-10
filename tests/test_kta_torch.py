@@ -35,3 +35,16 @@ def test_torch_kta_perfect_alignment():
     y = torch.randint(0, 2, (25,)) * 2 - 1
     K = torch.outer(y, y).float()
     assert torch.isclose(kta_torch(K, y), torch.tensor(1.0))
+
+
+def test_torch_identity_normalized():
+    K = torch.randn(12, 12)
+    K = (K + K.T) / 2  # ensure symmetry
+    K = K / torch.norm(K)  # normalize
+    assert torch.isclose(alignment_torch(K, K), torch.tensor(1.0), atol=1e-6)
+
+
+def test_alignment_vs_orthogonal():
+    A = torch.eye(10)
+    B = torch.flip(A, dims=[0])
+    assert alignment_torch(A, B) < 0.2  # nearly orthogonal
