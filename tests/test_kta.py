@@ -1,7 +1,6 @@
 import numpy as np
 
-from kta import alignment, kta
-from kta.kernels import rbf
+from kta import alignment, kta, rbf
 
 
 def test_random_vs_perfect():

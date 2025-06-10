@@ -3,6 +3,7 @@
 import numpy as np
 import torch
 from numpy.typing import NDArray
+from torch.types import Tensor
 
 
 def kta(K: NDArray, y: NDArray) -> float:
@@ -26,7 +27,7 @@ def alignment(K1: NDArray, K2: NDArray) -> float:
     return float(numerator / denominator)
 
 
-def alignment_torch(K1: torch.Tensor, K2: torch.Tensor) -> torch.Tensor:
+def alignment_torch(K1: Tensor, K2: Tensor) -> Tensor:
     """
     Compute the alignment between two kernels using PyTorch tensors.
     """
@@ -35,10 +36,10 @@ def alignment_torch(K1: torch.Tensor, K2: torch.Tensor) -> torch.Tensor:
     return torch.where(denominator == 0, torch.tensor(0.0), numerator / denominator)
 
 
-def kta_torch(K: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
+def kta_torch(K: Tensor, y: Tensor) -> Tensor:
     """
     Compute the Kernel-Target Alignment using PyTorch.
     """
-    y = y.view(-1)  # Flatten in case it's (n,1)
+    y = y.view(-1).float()  # Flatten in case it's (n,1)
     Y = torch.outer(y, y)
     return alignment_torch(K, Y)

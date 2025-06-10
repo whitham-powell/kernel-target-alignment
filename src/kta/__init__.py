@@ -6,7 +6,7 @@ Convenience re-exports so users can just do
 
     from kta import kta, alignment, rbf
 """
-from .core import alignment, kta
+from .core import alignment, alignment_torch, kta, kta_torch
 from .kernels import (
     linear,
     linear_torch,
@@ -25,6 +25,8 @@ __all__ = [
     "polynomial",
     "linear",
     "sigmoid",
+    "kta_torch",
+    "alignment_torch",
     "rbf_torch",
     "polynomial_torch",
     "linear_torch",
