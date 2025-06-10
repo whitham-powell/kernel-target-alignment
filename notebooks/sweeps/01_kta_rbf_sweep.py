@@ -88,7 +88,7 @@ ax1.set_ylabel("Alignment")
 ax2.set_ylabel("Test accuracy")
 fig.legend()
 
-fig.suptitle("RBF γ sweep — alignment closely tracks accuracy")
+fig.suptitle("RBF γ sweep — alignment tracks accuracy")
 # fig.tight_layout()
 plt.show()
 
