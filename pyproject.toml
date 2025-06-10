@@ -9,7 +9,20 @@ packages = ["kta"]
 [project]
 name = "kernel-target-alignment"
 version = "0.1.0"
+description = "A Python implementation of Kernel Target Alignment for kernel selection and optimization in machine learning"
+authors = [{name = "Elijah Whitham-Powell"}]
+readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">=3.13"
+keywords = ["kernel-methods", "machine-learning", "kernel-target-alignment", "kta", "pytorch", "numpy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "matplotlib>=3.10.3",
     "numpy>=1.22, <2.3.0",
@@ -18,6 +31,11 @@ dependencies = [
     "seaborn>=0.13.2",
     "torch>=2.7.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/whitham-powell/kernel-target-alignment"
+Repository = "https://github.com/whitham-powell/kernel-target-alignment"
+Issues = "https://github.com/whitham-powell/kernel-target-alignment/issues"
 
 [project.optional-dependencies]
 # gpu = ["cupy-cuda12x>=13.4.1"]

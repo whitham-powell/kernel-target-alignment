@@ -19,7 +19,7 @@ Kernel Target Alignment (KTA) is a metric that measures how well a kernel functi
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/kernel-target-alignment.git
+git clone https://github.com/whitham-powell/kernel-target-alignment.git
 cd kernel-target-alignment
 
 # Install with pip (recommended)
@@ -173,9 +173,9 @@ If you use this code in your research, please cite:
 ```bibtex
 @software{kta2024,
   title={Kernel Target Alignment Implementation},
-  author={Your Name},
+  author={Elijah Whitham-Powell},
   year={2024},
-  url={https://github.com/your-username/kernel-target-alignment}
+  url={https://github.com/whitham-powell/kernel-target-alignment}
 }
 ```
 
