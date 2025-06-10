@@ -21,6 +21,14 @@ def test_learnable_rbf_alignment():
     assert isinstance(a, torch.Tensor)
 
 
+def test_learnable_rbf_cross_gram():
+    X1 = torch.randn(10, 4)
+    X2 = torch.randn(15, 4)
+    model = LearnableRBF(gamma_init=0.5)
+    K = model(X1, X2)
+    assert K.shape == (10, 15)
+
+
 def test_learnable_polynomial_alignment():
     X = torch.randn(10, 3)
     y = torch.randint(0, 2, (10,)).float() * 2 - 1
@@ -31,6 +39,14 @@ def test_learnable_polynomial_alignment():
     assert isinstance(kta_torch(K, y), torch.Tensor)
 
 
+def test_learnable_poly_cross_gram():
+    X1 = torch.randn(6, 3)
+    X2 = torch.randn(4, 3)
+    model = LearnablePolynomial(degree=2, c_init=0.0)
+    K = model(X1, X2)
+    assert K.shape == (6, 4)
+
+
 def test_learnable_sigmoid_alignment():
     X = torch.randn(12, 5)
     y = torch.randint(0, 2, (12,)).float() * 2 - 1
@@ -39,6 +55,14 @@ def test_learnable_sigmoid_alignment():
     assert K.shape == (12, 12)
     assert torch.allclose(K, K.T, atol=1e-5)
     assert isinstance(kta_torch(K, y), torch.Tensor)
+
+
+def test_learnable_sigmoid_cross_gram():
+    X1 = torch.randn(12, 6)
+    X2 = torch.randn(8, 6)
+    model = LearnableSigmoid(gamma_init=0.1, c_init=0.5)
+    K = model(X1, X2)
+    assert K.shape == (12, 8)
 
 
 def test_kernel_combiner_alignment():
