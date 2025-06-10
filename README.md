@@ -22,11 +22,12 @@ Kernel Target Alignment (KTA) is a metric that measures how well a kernel functi
 git clone https://github.com/whitham-powell/kernel-target-alignment.git
 cd kernel-target-alignment
 
-# Install with pip (recommended)
-pip install -e ".[dev]"
+# If using uv (recommended)
+uv sync              # Sync dependencies
+make env             # Install package with dev extras
 
-# Or use the Makefile
-make install
+# Or with standard pip
+pip install -e ".[dev]"
 ```
 
 ## Quick Start
