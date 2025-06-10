@@ -23,6 +23,7 @@
 import matplotlib.pyplot as plt
 import torch
 from sklearn import datasets, model_selection, preprocessing
+from sklearn.svm import SVC
 
 try:
     from kta import LearnableRBF, kta_torch
@@ -77,6 +78,8 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
 # %%
 alignments = []
 gammas = []
+accuracies = []
+accuracy_freq = 1  # Check accuracy every `accuracy_freq` epochs
 
 for epoch in range(100):
     K = model(X)
@@ -87,6 +90,16 @@ for epoch in range(100):
 
     alignments.append(-loss.item())
     gammas.append(model.gamma.item())
+
+    if epoch % accuracy_freq == 0:
+        with torch.no_grad():
+            K_train_np = K.detach().cpu().numpy()
+            X_test_tensor = torch.tensor(X_te, dtype=torch.float32)
+            K_test_np = model(X_test_tensor, X).detach().cpu().numpy()
+        clf = SVC(kernel="precomputed")
+        clf.fit(K_train_np, y.cpu().numpy())
+        acc = clf.score(K_test_np, y_te)
+        accuracies.append((epoch, acc))
 
 # %% [markdown]
 # ## 4. Plot results
@@ -105,7 +118,21 @@ fig.tight_layout()
 plt.show()
 
 # %% [markdown]
-# ## 5. Final gamma and alignment
+# ## 5. Accuracy Over Time
+
+# %%
+if accuracies:
+    epochs, accs = zip(*accuracies)
+    plt.plot(epochs, accs, marker="o")
+    plt.xlabel("Epoch")
+    plt.ylabel("Test Accuracy")
+    plt.title(f"SVC Accuracy (Every {accuracy_freq} Epochs)")
+    plt.grid(True)
+    plt.show()
+
+
+# %% [markdown]
+# ## 6. Final gamma and alignment
 # %%
 print(f"Final gamma: {model.gamma.item():.4f}")
 print(f"Final alignment: {alignments[-1]:.4f}")

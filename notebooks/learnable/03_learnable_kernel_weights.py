@@ -11,22 +11,21 @@
 # ---
 
 # %%
-# notebooks/learnable/02_combine_fixed_kernels.py
+# notebooks/learnable/03_learnable_kernel_weights.py
 # %% [markdown]
-# # Learn Weights for Fixed Kernels
+# # Jointly Learn Kernel Parameters and Weights
 # - Dataset: Breast Cancer
-# - Kernels: Fixed RBF, Linear, Polynomial
-# - Goal: Learn convex weights to maximize KTA
+# - Kernels: Learnable RBF, Polynomial, Sigmoid
+# - Goal: Learn both parameters and convex weights to maximize KTA
 
 # %%
 try:
     from kta import (
-        FixedKernel,
         KernelCombiner,
+        LearnablePolynomial,
+        LearnableRBF,
+        LearnableSigmoid,
         kta_torch,
-        linear_torch,
-        polynomial_torch,
-        rbf_torch,
     )
 except ModuleNotFoundError:
     import subprocess
@@ -43,12 +42,11 @@ except ModuleNotFoundError:
         ],
     )
     from kta import (
-        FixedKernel,
+        LearnableRBF,
+        LearnablePolynomial,
+        LearnableSigmoid,
         KernelCombiner,
         kta_torch,
-        rbf_torch,
-        linear_torch,
-        polynomial_torch,
     )
 
 import matplotlib.pyplot as plt
@@ -61,7 +59,7 @@ from sklearn.svm import SVC
 
 # %%
 X, y = datasets.load_breast_cancer(return_X_y=True)
-y = (y * 2 - 1).astype(float)  # convert to {-1, 1}
+y = (y * 2 - 1).astype(float)
 
 X_tr, X_te, y_tr, y_te = model_selection.train_test_split(
     X,
@@ -78,30 +76,30 @@ X_te = scaler.transform(X_te)
 X = torch.tensor(X_tr, dtype=torch.float32)
 y = torch.tensor(y_tr, dtype=torch.float32)
 X_test = torch.tensor(X_te, dtype=torch.float32)
-y_test = y_te  # keep as NumPy array for SVC
+y_test = y_te
 
 # %% [markdown]
-# ## 2. Build fixed kernel combiner
+# ## 2. Build learnable kernel combiner
 
 # %%
 kernels = [
-    FixedKernel(lambda X1, X2=None: rbf_torch(X1, X2, gamma=0.1)),
-    FixedKernel(lambda X1, X2=None: rbf_torch(X1, X2, gamma=1.0)),
-    FixedKernel(lambda X1, X2=None: polynomial_torch(X1, X2, degree=2, c=1.0)),
-    FixedKernel(lambda X1, X2=None: linear_torch(X1, X2)),
+    LearnableRBF(gamma_init=1.0),
+    LearnablePolynomial(degree=2, c_init=1.0),
+    LearnableSigmoid(gamma_init=0.01, c_init=0.0),
 ]
-
 
 model = KernelCombiner(kernels)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.05)
 
 # %% [markdown]
-# ## 3. Optimize weights to maximize alignment
+# ## 3. Optimize KTA
 
 # %%
 alignments = []
 weights_history = []
 accuracies = []
+params_history = []
+accuracy_freq = 1  # Check accuracy every `accuracy_freq` epochs
 
 for epoch in range(100):
     K_train = model(X)
@@ -113,13 +111,13 @@ for epoch in range(100):
     alignments.append(-loss.item())
     with torch.no_grad():
         weights_history.append(torch.softmax(model.raw_weights, dim=0).cpu().tolist())
+        params = [p.item() for k in model.kernels for p in k.parameters()]
+        params_history.append(params)
 
-    # Accuracy every 5 epochs
-    if epoch % 5 == 0:
+    if epoch % accuracy_freq == 0:
         with torch.no_grad():
             K_train_np = K_train.detach().cpu().numpy()
             K_test_np = model(X_test, X).detach().cpu().numpy()
-
         clf = SVC(kernel="precomputed")
         clf.fit(K_train_np, y.cpu().numpy())
         acc = clf.score(K_test_np, y_test)
@@ -133,7 +131,7 @@ fig, ax1 = plt.subplots()
 ax1.plot(alignments, label="KTA")
 ax1.set_ylabel("Alignment")
 ax1.set_xlabel("Epoch")
-ax1.set_title("Combined Fixed Kernels: Alignment")
+ax1.set_title("Learnable Kernels: Alignment")
 plt.show()
 
 # %%
@@ -156,12 +154,39 @@ if accuracies:
     plt.plot(epochs, accs, marker="o")
     plt.xlabel("Epoch")
     plt.ylabel("Test Accuracy")
-    plt.title("SVC Accuracy (Every 5 Epochs)")
+    plt.title(f"SVC Accuracy (Every {accuracy_freq} Epochs)")
     plt.grid(True)
     plt.show()
 
 # %% [markdown]
-# ## 6. Final Weights and Alignment
+# ## 6. Final Weights, Alignment, Parameters
+
 # %%
 print("Final weights:", torch.softmax(model.raw_weights, dim=0))
 print(f"Final alignment: {alignments[-1]:.4f}")
+print("Final kernel parameters:")
+for i, k in enumerate(model.kernels):
+    for name, param in k.named_parameters():
+        print(f"Kernel {i+1} - {name}: {param.item():.4f}")
+
+# %% [markdown]
+# ## 7. Plot Kernel Parameter Evolution
+# Tracks each learnable parameter (e.g., gamma, c) over time.
+
+# %%
+params_history = torch.tensor(params_history)
+param_labels = ["RBF gamma", "Poly c", "Sigmoid gamma", "Sigmoid c"]
+
+fig, ax = plt.subplots()
+for i in range(params_history.shape[1]):
+    ax.plot(params_history[:, i], label=param_labels[i])
+ax.set_xlabel("Epoch")
+ax.set_ylabel("Parameter Value")
+ax.set_title("Learnable Kernel Parameters Over Time")
+ax.legend()
+plt.grid(True, linestyle="--", alpha=0.5)
+plt.tight_layout()
+plt.show()
+
+
+# %%
