@@ -24,13 +24,6 @@ repos:
         files: \.py$ # Target only Python files
         additional_dependencies:
           - flake8-pyproject # Use pyproject.toml for configuration
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v1.13.0
-  #   hooks:
-  #     - id: mypy
-  #       additional_dependencies:
-  #         - numpy
-  #       args: ["--config-file=pyproject.toml"]
   # Miscellaneous
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

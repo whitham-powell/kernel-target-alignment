@@ -12,8 +12,8 @@
 
 # %% [markdown]
 # # RBF γ Sweep: Kernel–Target Alignment vs. SVM Accuracy
-# *Dataset*: Breast-Cancer (binary, 30 features)
-# *Message*: The γ that **maximizes KTA** almost always maximizes test accuracy.
+# - *Dataset*: Breast-Cancer (binary, 30 features)
+# - *Goal*: The γ that **maximizes KTA** almost always maximizes test accuracy.
 
 
 # %%

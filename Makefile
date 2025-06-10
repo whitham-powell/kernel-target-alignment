@@ -26,3 +26,13 @@ plots: env         ## Extract plots from executed notebooks (requires dev env)
 	done
 	@find notebooks -name '*.html' -delete
 	@echo "Plots extracted to extracted_figures/"
+
+md: env
+	@for nb in notebooks/**/*.ipynb; do \
+		echo "Converting $$nb to Markdown..."; \
+		uv run jupyter nbconvert "$$nb" \
+			--to markdown \
+			--execute \
+			--ExecutePreprocessor.timeout=300 \
+			--output-dir=markdown_export; \
+	done
