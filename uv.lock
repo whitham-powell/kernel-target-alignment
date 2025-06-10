@@ -838,6 +838,7 @@ dev = [
     { name = "ipykernel" },
     { name = "jupyter" },
     { name = "jupytext" },
+    { name = "nbconvert" },
     { name = "pytest" },
     { name = "pytest-cov" },
 ]
@@ -848,6 +849,7 @@ requires-dist = [
     { name = "jupyter", marker = "extra == 'dev'", specifier = ">=1.1.1" },
     { name = "jupytext", marker = "extra == 'dev'", specifier = ">=1.16" },
     { name = "matplotlib", specifier = ">=3.10.3" },
+    { name = "nbconvert", marker = "extra == 'dev'", specifier = ">=6.8.0" },
     { name = "numpy", specifier = ">=1.22,<2.3.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.4.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6.1.1" },

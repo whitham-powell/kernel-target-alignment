@@ -26,7 +26,8 @@ dev = [                     # for contributors / yourself during R&D
     "jupyter>=1.1.1",
     "pytest>=8.4.0",
     "pytest-cov>=6.1.1",
-    "jupytext >=1.16",
+    "jupytext>=1.16",
+    "nbconvert>=6.8.0"
 ]
 
 # [dependency-groups]
